@@ -16,6 +16,28 @@ export default function ToDoList() {
     }
   }, [])
 
+  useEffect(() => {
+    console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
+    
+    const fetchTodos = async () => {
+      try {
+        // Asegúrate de que la URL termina sin barra
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL.endsWith('/') 
+          ? process.env.NEXT_PUBLIC_API_URL.slice(0, -1) 
+          : process.env.NEXT_PUBLIC_API_URL;
+        
+        console.log("Fetching from:", `${apiUrl}/todos`);
+        
+        const response = await fetch(`${apiUrl}/todos`);
+        // ... resto del código
+      } catch (error) {
+        console.error("Error fetching todos:", error);
+      }
+    };
+    
+    fetchTodos();
+  }, []);
+
   async function fetchTodos(completed) {
     let path = '/todos'
     if (completed !== undefined) {
